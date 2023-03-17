@@ -63,6 +63,12 @@ public interface WXService {
     /**
      * 批量获取用户信息
      */
+    String USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/info?access_token=";
+    WxUserInfoDTO getUserInfo(String openId);
+
+    /**
+     * 批量获取用户信息
+     */
     String BATCH_USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/info/batchget?access_token=";
 
     WXUserInfoOuterDTO batchGetUserInfo(List<String> openIds);

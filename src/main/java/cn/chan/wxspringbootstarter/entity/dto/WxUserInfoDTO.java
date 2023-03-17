@@ -5,7 +5,7 @@ package cn.chan.wxspringbootstarter.entity.dto;
  * @date: 2023/3/16 - 16:33
  * @description:
  **/
-public class WxUserInfoDTO {
+public class WxUserInfoDTO extends ErrorDTO {
 
     /**
      * 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。

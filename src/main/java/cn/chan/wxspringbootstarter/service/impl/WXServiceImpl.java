@@ -69,8 +69,12 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public WXTokenDTO getTokenByCode(String code) {
-        ResponseEntity<WXTokenDTO> mapEntity = restTemplate.getForEntity(GET_TOKEN_BY_CODE, WXTokenDTO.class, appId, appSecret, code);
-        return mapEntity.getBody();
+        ResponseEntity<String> mapEntity = restTemplate.getForEntity(GET_TOKEN_BY_CODE, String.class, appId, appSecret, code);
+
+        String body = mapEntity.getBody();
+
+        WXTokenDTO wxTokenDTO = JSONObject.parseObject(body, WXTokenDTO.class);
+        return wxTokenDTO;
     }
 
     @Override
@@ -107,6 +111,13 @@ public class WXServiceImpl implements WXService {
         WxOpenIdDTO data = wxMpUserList.getData();
 //        data.getOpenid();
         return data.getOpenid();
+    }
+
+    @Override
+    public WxUserInfoDTO getUserInfo(String openId) {
+        String token = getToken();
+        ResponseEntity<WxUserInfoDTO> entity = restTemplate.getForEntity(USER_INFO, WxUserInfoDTO.class, token);
+        return entity.getBody();
     }
 
     @Override
