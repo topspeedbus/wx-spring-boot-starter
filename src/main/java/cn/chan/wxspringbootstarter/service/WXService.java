@@ -40,6 +40,12 @@ public interface WXService {
     String getToken();
 
     /**
+     * 公众号根据code获取token信息
+     */
+    String GET_TOKEN_BY_CODE = WX_API_DOMAIN + "/sns/oauth2/access_token?grant_type=authorization_code&appid={appId}&secret={appSecret}&code={code}";
+    WXTokenDTO getTokenByCode(String code);
+
+    /**
      * 获取URLLink
      */
     String urlLink();

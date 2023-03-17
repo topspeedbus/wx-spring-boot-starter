@@ -68,6 +68,12 @@ public class WXServiceImpl implements WXService {
     }
 
     @Override
+    public WXTokenDTO getTokenByCode(String code) {
+        ResponseEntity<WXTokenDTO> mapEntity = restTemplate.getForEntity(GET_TOKEN_BY_CODE, WXTokenDTO.class, appId, appSecret, code);
+        return mapEntity.getBody();
+    }
+
+    @Override
     public String urlLink() {
 
         String token = getToken();

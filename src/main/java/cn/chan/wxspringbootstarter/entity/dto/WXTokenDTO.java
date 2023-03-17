@@ -11,13 +11,16 @@ package cn.chan.wxspringbootstarter.entity.dto;
 //@Data
 //@Accessors(chain = true)
 //@ApiModel("微信token")
-public class WXTokenDTO  {
-    private static final long serialVersionUID = 1L;
+public class WXTokenDTO extends ErrorDTO {
 
-//    @ApiModelProperty(value = "微信token")
+    //    @ApiModelProperty(value = "微信token")
     private String access_token;
 
-//    @ApiModelProperty(value = "过期时间")
+    private String refresh_token;
+
+    private String openid;
+
+    //    @ApiModelProperty(value = "过期时间")
     private Long expires_in;
 
     public String getAccess_token() {
@@ -34,5 +37,21 @@ public class WXTokenDTO  {
 
     public void setExpires_in(Long expires_in) {
         this.expires_in = expires_in;
+    }
+
+    public String getRefresh_token() {
+        return refresh_token;
+    }
+
+    public void setRefresh_token(String refresh_token) {
+        this.refresh_token = refresh_token;
+    }
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
     }
 }
