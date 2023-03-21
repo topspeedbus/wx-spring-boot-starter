@@ -4,6 +4,7 @@ package cn.chan.wxspringbootstarter.service.impl;
 import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.WxOpenIdBatchQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
+import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
 import cn.chan.wxspringbootstarter.service.WXService;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
@@ -78,13 +79,13 @@ public class WXServiceImpl implements WXService {
     }
 
     @Override
-    public String urlLink() {
+    public String urlLink(WxUrlLinkQO wxUrlLinkQO) {
 
         String token = getToken();
 
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("query", "");
-        ResponseEntity<WXUrlLinkDTO> entity = restTemplate.postForEntity(GENERATE_URLLINK_URL + token, jsonObject, WXUrlLinkDTO.class);
+//        JSONObject jsonObject = new JSONObject();
+//        jsonObject.put("query", "");
+        ResponseEntity<WXUrlLinkDTO> entity = restTemplate.postForEntity(GENERATE_URLLINK_URL + token, wxUrlLinkQO, WXUrlLinkDTO.class);
         WXUrlLinkDTO urlLinkDTO = entity.getBody();
         if (ObjectUtils.isEmpty(urlLinkDTO) || !urlLinkDTO.getErrcode().equals(0)) {
             log.error("url link error :{}", entity);
@@ -95,22 +96,19 @@ public class WXServiceImpl implements WXService {
     }
 
     @Override
-    public List<String> getUserList() {
+    public WxMpUserList getUserList(String nextOpenId) {
         String token = getToken();
 
-        ResponseEntity<WxMpUserList> entity = restTemplate.getForEntity(USER_LIST_URL, WxMpUserList.class, token);
+        ResponseEntity<WxMpUserList> entity = restTemplate.getForEntity(USER_LIST_URL, WxMpUserList.class, token, nextOpenId);
         WxMpUserList wxMpUserList = entity.getBody();
 
         if (ObjectUtils.isEmpty(wxMpUserList)) {
             log.error("getUserList error :{}", entity);
-
-            entity.getBody();
             throw new RuntimeException("获取小程序外连接报错！" + entity.getBody().toString());
         }
 
-        WxOpenIdDTO data = wxMpUserList.getData();
-//        data.getOpenid();
-        return data.getOpenid();
+//        WxOpenIdDTO data = wxMpUserList.getData();
+        return wxMpUserList;
     }
 
     @Override

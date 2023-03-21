@@ -3,6 +3,7 @@ package cn.chan.wxspringbootstarter.service;
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
+import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
 
 import java.util.List;
 
@@ -48,16 +49,17 @@ public interface WXService {
     /**
      * 获取URLLink
      */
-    String urlLink();
+    String urlLink(WxUrlLinkQO wxUrlLinkQO);
 
 
     /**
      * 66_CGGvh7btx-parJI9LuCA_c-JIpFtbZEFw10gWd9KznbpI4RCIPgpzLJdO10gi6Ukjvnts30eLhKiS0fDABGCu-_fgEJtHDvOdeWTvP-HCN7jefDwsWQwPT-EffgNPPaABABDD
      * 获取用户列表
+     * @param nextOpenId 下一个openid
      */
     String USER_LIST_URL = WX_API_DOMAIN + "/cgi-bin/user/get?access_token={token}&next_openid={nextOpenId}";
 
-    List<String> getUserList();
+    WxMpUserList getUserList(String nextOpenId);
 
 
     /**
@@ -70,7 +72,6 @@ public interface WXService {
      * 批量获取用户信息
      */
     String BATCH_USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/info/batchget?access_token=";
-
     WXUserInfoOuterDTO batchGetUserInfo(List<String> openIds);
 
 

@@ -1,5 +1,8 @@
 package cn.chan.wxspringbootstarter.entity.dto;
 
+import java.util.Date;
+import java.util.List;
+
 /**
  * @author: piaoxue
  * @date: 2023/3/16 - 16:33
@@ -10,7 +13,7 @@ public class WxUserInfoDTO extends ErrorDTO {
     /**
      * 用户是否订阅该公众号标识，值为0时，代表此用户没有关注该公众号，拉取不到其余信息。
      */
-    private String subscribe;
+    private Integer subscribe;
 
     /**
      * 用户的标识，对当前公众号唯一
@@ -25,7 +28,7 @@ public class WxUserInfoDTO extends ErrorDTO {
     /**
      * 用户关注时间，为时间戳。如果用户曾多次关注，则取最后关注时间
      */
-    private String subscribe_time;
+    private Long subscribe_time;
 
     /**
      * 只有在用户将公众号绑定到微信开放平台帐号后，才会出现该字段。
@@ -40,12 +43,12 @@ public class WxUserInfoDTO extends ErrorDTO {
     /**
      * 用户所在的分组ID（暂时兼容用户分组旧接口）
      */
-    private String groupid;
+    private Integer groupid;
 
     /**
      * 用户被打上的标签ID列表
      */
-    private String tagid_list;
+    private List<String> tagid_list;
 
     /**
      * 返回用户关注的渠道来源，
@@ -67,11 +70,11 @@ public class WxUserInfoDTO extends ErrorDTO {
      */
     private String qr_scene_str;
 
-    public String getSubscribe() {
+    public Integer getSubscribe() {
         return subscribe;
     }
 
-    public void setSubscribe(String subscribe) {
+    public void setSubscribe(Integer subscribe) {
         this.subscribe = subscribe;
     }
 
@@ -91,11 +94,11 @@ public class WxUserInfoDTO extends ErrorDTO {
         this.language = language;
     }
 
-    public String getSubscribe_time() {
+    public Long getSubscribe_time() {
         return subscribe_time;
     }
 
-    public void setSubscribe_time(String subscribe_time) {
+    public void setSubscribe_time(Long subscribe_time) {
         this.subscribe_time = subscribe_time;
     }
 
@@ -115,19 +118,19 @@ public class WxUserInfoDTO extends ErrorDTO {
         this.remark = remark;
     }
 
-    public String getGroupid() {
+    public Integer getGroupid() {
         return groupid;
     }
 
-    public void setGroupid(String groupid) {
+    public void setGroupid(Integer groupid) {
         this.groupid = groupid;
     }
 
-    public String getTagid_list() {
+    public List<String> getTagid_list() {
         return tagid_list;
     }
 
-    public void setTagid_list(String tagid_list) {
+    public void setTagid_list(List<String> tagid_list) {
         this.tagid_list = tagid_list;
     }
 
@@ -153,5 +156,10 @@ public class WxUserInfoDTO extends ErrorDTO {
 
     public void setQr_scene_str(String qr_scene_str) {
         this.qr_scene_str = qr_scene_str;
+    }
+
+    public static void main(String[] args) {
+        Date date = new Date(1594815484 *1000L);
+        System.out.println(date);
     }
 }
