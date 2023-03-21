@@ -5,6 +5,7 @@ import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.WxOpenIdBatchQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
+import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
 import cn.chan.wxspringbootstarter.service.WXService;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
@@ -76,6 +77,13 @@ public class WXServiceImpl implements WXService {
 
         WXTokenDTO wxTokenDTO = JSONObject.parseObject(body, WXTokenDTO.class);
         return wxTokenDTO;
+    }
+
+    @Override
+    public WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO) {
+        String token = getToken();
+        ResponseEntity<WXUrlSchemaDTO> entity = restTemplate.postForEntity(GEN_URL_SCHEMA + token, urlSchemaOuterQO, WXUrlSchemaDTO.class);
+        return entity.getBody();
     }
 
     @Override

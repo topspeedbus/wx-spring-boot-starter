@@ -9,4 +9,12 @@ import java.util.List;
  **/
 public class WxTagsOuterDTO extends ErrorDTO {
     private List<WxTag> tags;
+
+    public List<WxTag> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<WxTag> tags) {
+        this.tags = tags;
+    }
 }

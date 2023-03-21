@@ -4,6 +4,7 @@ package cn.chan.wxspringbootstarter.service;
 import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
+import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
 
 import java.util.List;
 
@@ -45,6 +46,12 @@ public interface WXService {
      */
     String GET_TOKEN_BY_CODE = WX_API_DOMAIN + "/sns/oauth2/access_token?grant_type=authorization_code&appid={appId}&secret={appSecret}&code={code}";
     WXTokenDTO getTokenByCode(String code);
+
+    /**
+     * 公众号根据code获取token信息
+     */
+    String GEN_URL_SCHEMA = WX_API_DOMAIN + "/wxa/generatescheme?access_token=";
+    WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO);
 
     /**
      * 获取URLLink
