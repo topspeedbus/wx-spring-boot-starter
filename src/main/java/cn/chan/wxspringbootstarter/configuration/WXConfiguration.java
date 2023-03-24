@@ -30,17 +30,12 @@ public class WXConfiguration {
         this.wxProperties = wxProperties;
     }
 
-//    @Bean
-//    public RestTemplate restTemplate() {
-//        return new RestTemplate();
-//    }
-
     @Bean(name = "copWxService")
     @ConditionalOnProperty(
             value = {"wx.applet.configs.copAppId"}
     )
     public WXService copWxService() {
-        return new WXServiceImpl(wxProperties.getCopAppId(), wxProperties.getCopSecret());
+        return new WXServiceImpl(wxProperties.getCopAppId(), wxProperties.getCopSecret(), wxProperties.getCopPath(), wxProperties.getCopQuery());
     }
 
     @Bean(name = "cmsWxService")
@@ -48,7 +43,7 @@ public class WXConfiguration {
             value = {"wx.applet.configs.cmsAppId"}
     )
     public WXService cmsWxService() {
-        return new WXServiceImpl(wxProperties.getCmsAppId(), wxProperties.getCmsSecret());
+        return new WXServiceImpl(wxProperties.getCmsAppId(), wxProperties.getCmsSecret(), wxProperties.getCmsPath(), wxProperties.getCmsQuery());
     }
 
     @Bean("wxServiceMap")

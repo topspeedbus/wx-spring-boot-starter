@@ -2,6 +2,7 @@ package cn.chan.wxspringbootstarter.service;
 
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
+import cn.chan.wxspringbootstarter.entity.qo.WxCodeQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
 import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
@@ -48,10 +49,16 @@ public interface WXService {
     WXTokenDTO getTokenByCode(String code);
 
     /**
-     * 公众号根据code获取token信息
+     * 获取schema
      */
     String GEN_URL_SCHEMA = WX_API_DOMAIN + "/wxa/generatescheme?access_token=";
     WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO);
+
+    /**
+     * 获取小程序码
+     */
+    String GET_NO_LIMIT_CODE = WX_API_DOMAIN + "/wxa/getwxacodeunlimit?access_token=";
+    byte[] getNoLimitCode(WxCodeQO wxCodeQO);
 
     /**
      * 获取URLLink

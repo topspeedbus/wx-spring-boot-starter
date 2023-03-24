@@ -2,17 +2,18 @@ package cn.chan.wxspringbootstarter.service.impl;
 
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
-import cn.chan.wxspringbootstarter.entity.qo.WxOpenIdBatchQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
+import cn.chan.wxspringbootstarter.entity.qo.*;
 import cn.chan.wxspringbootstarter.service.WXService;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -38,13 +39,24 @@ public class WXServiceImpl implements WXService {
 
     private String appId;
     private String appSecret;
+    private String path;
+    private String query;
 
     public WXServiceImpl() {
+    }
+
+    public WXServiceImpl(String appId, String appSecret, String path, String query) {
+        this.appId = appId;
+        this.appSecret = appSecret;
+        this.path = path;
+        this.query = query;
     }
 
     public WXServiceImpl(String appId, String appSecret) {
         this.appId = appId;
         this.appSecret = appSecret;
+        this.path = "";
+        this.query = "";
     }
 
     @Override
@@ -82,8 +94,42 @@ public class WXServiceImpl implements WXService {
     @Override
     public WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO) {
         String token = getToken();
+        WxUrlSchemaQO jump_wxa = urlSchemaOuterQO.getJump_wxa();
+        jump_wxa.setPath(path);
+        jump_wxa.setQuery(query);
         ResponseEntity<WXUrlSchemaDTO> entity = restTemplate.postForEntity(GEN_URL_SCHEMA + token, urlSchemaOuterQO, WXUrlSchemaDTO.class);
+
         return entity.getBody();
+
+    }
+
+    /**
+     * WxCodeQO wxCodeQO = new WxCodeQO();
+     * wxCodeQO.setPage(copPath);
+     * wxCodeQO.setScene(copQuery);
+     * byte[] resource = wxService.getNoLimitCode(wxCodeQO);
+     * <p>
+     * try (InputStream bis = new ByteArrayInputStream(resource)) {
+     * IOssService ossService = appContext.getBean("ossService", IOssService.class);
+     * String chan = ossService.UpToOss(bis, ".png");
+     * return chan;
+     * } catch (IOException e) {
+     * throw new CustomException("获取微信小程序码报错");
+     * }
+     *
+     * @param wxCodeQO
+     * @return
+     */
+    @Override
+    public byte[] getNoLimitCode(WxCodeQO wxCodeQO) {
+        String token = getToken();
+        wxCodeQO.setPage(path);
+        wxCodeQO.setScene(query);
+        MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
+        HttpEntity requestEntity = new HttpEntity(wxCodeQO, headers);
+        ResponseEntity<byte[]> entity = restTemplate.exchange(GET_NO_LIMIT_CODE + token, HttpMethod.POST, requestEntity, byte[].class, new Object[0]);
+        byte[] body = entity.getBody();
+        return body;
     }
 
     @Override

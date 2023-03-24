@@ -14,9 +14,13 @@ public class WXProperties {
 
     private String copAppId;
     private String copSecret;
+    private String copPath;
+    private String copQuery;
 
     private String cmsAppId;
     private String cmsSecret;
+    private String cmsPath;
+    private String cmsQuery;
 
     public String getCopAppId() {
         return copAppId;
@@ -48,5 +52,37 @@ public class WXProperties {
 
     public void setCmsSecret(String cmsSecret) {
         this.cmsSecret = cmsSecret;
+    }
+
+    public String getCopPath() {
+        return copPath;
+    }
+
+    public void setCopPath(String copPath) {
+        this.copPath = copPath;
+    }
+
+    public String getCopQuery() {
+        return copQuery;
+    }
+
+    public void setCopQuery(String copQuery) {
+        this.copQuery = copQuery;
+    }
+
+    public String getCmsPath() {
+        return cmsPath;
+    }
+
+    public void setCmsPath(String cmsPath) {
+        this.cmsPath = cmsPath;
+    }
+
+    public String getCmsQuery() {
+        return cmsQuery;
+    }
+
+    public void setCmsQuery(String cmsQuery) {
+        this.cmsQuery = cmsQuery;
     }
 }
