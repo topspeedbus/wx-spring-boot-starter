@@ -6,5 +6,13 @@ package cn.chan.wxspringbootstarter.entity.dto;
  * @description:
  **/
 public class WxTagOuterDTO extends ErrorDTO {
+    public WxTag getTagDTO() {
+        return tagDTO;
+    }
+
+    public void setTagDTO(WxTag tagDTO) {
+        this.tagDTO = tagDTO;
+    }
+
     private WxTag tagDTO;
 }

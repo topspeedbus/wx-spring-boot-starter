@@ -4,6 +4,7 @@ package cn.chan.wxspringbootstarter.service.impl;
 import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.*;
 import cn.chan.wxspringbootstarter.service.WXService;
+import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,8 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public String getToken() {
+
+        log.info("当前appid: {}, appkey: {}", appId, appSecret);
         //先获取redis中得token
         Object tokenRedis = redisTemplate.opsForValue().get(TOKEN_REDIS_KEY_PREFIX + appId);
         if (!ObjectUtils.isEmpty(tokenRedis)) {
@@ -69,6 +72,7 @@ public class WXServiceImpl implements WXService {
 
         ResponseEntity<WXTokenDTO> mapEntity = restTemplate.getForEntity(GET_TOKEN_URL, WXTokenDTO.class, appId, appSecret);
         WXTokenDTO token = mapEntity.getBody();
+        log.info("返回token结果: {}", JSON.toJSON(token));
         if (ObjectUtils.isEmpty(token)) {
             log.error("获取微信token失败 :{}", mapEntity);
             throw new RuntimeException("获取微信token失败！");
@@ -100,7 +104,6 @@ public class WXServiceImpl implements WXService {
         ResponseEntity<WXUrlSchemaDTO> entity = restTemplate.postForEntity(GEN_URL_SCHEMA + token, urlSchemaOuterQO, WXUrlSchemaDTO.class);
 
         return entity.getBody();
-
     }
 
     /**

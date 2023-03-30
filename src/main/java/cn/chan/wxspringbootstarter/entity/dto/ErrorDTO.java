@@ -1,6 +1,9 @@
 package cn.chan.wxspringbootstarter.entity.dto;
 
+import org.springframework.util.ObjectUtils;
+
 import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * @author: piaoxue
@@ -27,5 +30,12 @@ public class ErrorDTO implements Serializable {
 
     public void setErrmsg(String errmsg) {
         this.errmsg = errmsg;
+    }
+
+    public void checkIfError() {
+        if (!ObjectUtils.isEmpty(errcode)
+                && !Objects.equals(errcode, 0)) {
+            throw new RuntimeException("调用微信API报错, errorCode: " + errcode + ", errorMsg: " + errmsg);
+        }
     }
 }
