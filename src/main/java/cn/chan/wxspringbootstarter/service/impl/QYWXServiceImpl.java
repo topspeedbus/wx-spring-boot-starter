@@ -1,6 +1,8 @@
 package cn.chan.wxspringbootstarter.service.impl;
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
+import cn.chan.wxspringbootstarter.entity.qo.QwBatchGetExternalUserInfoQO;
+import cn.chan.wxspringbootstarter.entity.qo.QwEditUserMarkQO;
 import cn.chan.wxspringbootstarter.service.QYWXService;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -57,6 +59,36 @@ public class QYWXServiceImpl  implements QYWXService {
         redisTemplate.expire(TOKEN_REDIS_KEY_PREFIX + corpid, token.getExpires_in(), TimeUnit.SECONDS);
 
         return token.getAccess_token();
+    }
+
+    @Override
+    public ExternalContractUserDTO getExternalContractUserList() {
+        String token = getToken();
+        return restTemplate.getForObject(GET_EXTERNAL_CONTRACT_USER_LIST + token, ExternalContractUserDTO.class);
+    }
+
+    @Override
+    public ExternalContractDTO getExternalContractList(String userId) {
+        String token = getToken();
+        return restTemplate.getForObject(GET_EXTERNAL_CONTRACT_LIST, ExternalContractDTO.class, token, userId);
+    }
+
+    @Override
+    public QwExternalUserDTO getExternalContractUserInfo(String externalUserId, String cursor) {
+        String token = getToken();
+        return restTemplate.getForObject(GET_EXTERNAL_CONTRACT_USER_INFO, QwExternalUserDTO.class, token, externalUserId, cursor);
+    }
+
+    @Override
+    public QwExternalUserBatchDTO getExternalContractUserInfoBatch(QwBatchGetExternalUserInfoQO batchGetExternalUserInfoQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_TAG_LIST + token, batchGetExternalUserInfoQO, QwExternalUserBatchDTO.class);
+    }
+
+    @Override
+    public ErrorDTO mark(QwEditUserMarkQO userMarkQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_TAG_LIST + token, userMarkQO, ErrorDTO.class);
     }
 
     @Override

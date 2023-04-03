@@ -2,6 +2,8 @@ package cn.chan.wxspringbootstarter.service;
 
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
+import cn.chan.wxspringbootstarter.entity.qo.QwBatchGetExternalUserInfoQO;
+import cn.chan.wxspringbootstarter.entity.qo.QwEditUserMarkQO;
 
 /**
  * @author: piaoxue
@@ -21,23 +23,51 @@ public interface QYWXService {
      * token redis key
      */
     String TOKEN_REDIS_KEY_PREFIX = "qywx_token:";
-//
-//    /**
-//     * 获取schema
-//     */
-//    String GEN_URL_SCHEMA = WX_API_DOMAIN + "/wxa/generatescheme?access_token=";
-//    WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO);
-//
-//    /**
-//     * 获取小程序码
-//     */
-//    String GET_NO_LIMIT_CODE = WX_API_DOMAIN + "/wxa/getwxacodeunlimit?access_token=";
-//    byte[] getNoLimitCode(WxCodeQO wxCodeQO);
-//
-//    /**
-//     * 获取URLLink
-//     */
-//    String urlLink(WxUrlLinkQO wxUrlLinkQO);
+
+    /**
+     * 获取配置了客户联系功能的成员列表
+     * errcode	返回码
+     * errmsg	对返回码的文本描述内容
+     * follow_user	配置了客户联系功能的成员userid列表
+     */
+    String GET_EXTERNAL_CONTRACT_USER_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/get_follow_user_list?access_token=";
+    ExternalContractUserDTO getExternalContractUserList();
+
+    /**
+     *获取客户列表
+     *企业可通过此接口获取指定成员添加的客户列表。客户是指配置了客户联系功能的成员所添加的外部联系人。没有配置客户联系功能的成员，所添加的外部联系人将不会作为客户返回。
+     */
+    String GET_EXTERNAL_CONTRACT_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/list?access_token={token}&userid={userId}";
+    ExternalContractDTO getExternalContractList(String userId);
+
+    /**
+     *获取客户详情
+     *企业可通过此接口获取指定成员添加的客户列表。客户是指配置了客户联系功能的成员所添加的外部联系人。没有配置客户联系功能的成员，所添加的外部联系人将不会作为客户返回。
+     * external_userid	是	外部联系人的userid，注意不是企业成员的帐号
+     * cursor	否	上次请求返回的next_cursor
+     */
+    String GET_EXTERNAL_CONTRACT_USER_INFO = WX_API_DOMAIN + "/cgi-bin/externalcontact/get?access_token={token}&external_userid={externalUserId}&cursor={cursor}";
+    QwExternalUserDTO getExternalContractUserInfo(String externalUserId, String cursor);
+
+    /**
+     *批量获取客户详情
+     *企业可通过此接口获取指定成员添加的客户列表。客户是指配置了客户联系功能的成员所添加的外部联系人。没有配置客户联系功能的成员，所添加的外部联系人将不会作为客户返回。
+     * userid_list	是	企业成员的userid列表，字符串类型，最多支持100个
+     * cursor	否	用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
+     * limit	否	返回的最大记录数，整型，最大值100，默认值50，超过最大值时取最大值
+     */
+    String GET_EXTERNAL_CONTRACT_BATCH_USER_INFO = WX_API_DOMAIN + "/cgi-bin/externalcontact/batch/get_by_user?access_token=";
+    QwExternalUserBatchDTO getExternalContractUserInfoBatch(QwBatchGetExternalUserInfoQO batchGetExternalUserInfoQO);
+
+    /**
+     *批量获取客户详情
+     *企业可通过此接口获取指定成员添加的客户列表。客户是指配置了客户联系功能的成员所添加的外部联系人。没有配置客户联系功能的成员，所添加的外部联系人将不会作为客户返回。
+     * userid_list	是	企业成员的userid列表，字符串类型，最多支持100个
+     * cursor	否	用于分页查询的游标，字符串类型，由上一次调用返回，首次调用可不填
+     * limit	否	返回的最大记录数，整型，最大值100，默认值50，超过最大值时取最大值
+     */
+    String EXTERNAL_CONTRACT_MARK = WX_API_DOMAIN + "/cgi-bin/externalcontact/remark?access_token=";
+    ErrorDTO mark(QwEditUserMarkQO userMarkQO);
 //
 //
 //    /**
