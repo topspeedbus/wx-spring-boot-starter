@@ -115,21 +115,21 @@ public interface QYWXService {
      tag_group.tag.deleted	标签是否已经被删除，只在指定tag_id/group_id进行查询时返回
      *
      */
-    String CREATE_TAG = WX_API_DOMAIN + "cgi-bin/externalcontact/add_corp_tag?access_token=ACCESS_TOKEN";
-    QywxTagOuterDTO createTag(QywxTagOuterDTO qywxTagOuterDTO);
+    String CREATE_TAG = WX_API_DOMAIN + "/cgi-bin/externalcontact/add_corp_tag?access_token=";
+    QywxTagGroupOuterDTO createTag(QywxTagGroupDTO qywxTagOuterDTO);
 
     /**
      * 获取标签列表
      *
      */
-    String GET_TAG_LIST = WX_API_DOMAIN + "cgi-bin/externalcontact/get_corp_tag_list?access_token=ACCESS_TOKEN";
+    String GET_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/get_corp_tag_list?access_token=";
     QywxTagOuterDTO getCorpTagList();
 
     /**
      * 编辑标签列表
      *
      */
-    String EDIT_TAG_LIST = WX_API_DOMAIN + "cgi-bin/externalcontact/edit_corp_tag_list?access_token=ACCESS_TOKEN";
+    String EDIT_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/edit_corp_tag_list?access_token=";
     ErrorDTO editCorpTagList(QywxEditTagDTO qywxEditTagDTO);
 
     /**
@@ -142,11 +142,11 @@ public interface QYWXService {
      * 如果一个标签组下所有的标签均被删除，则标签组会被自动删除。
      *
      */
-    String DELETE_TAG_LIST = WX_API_DOMAIN + "cgi-bin/externalcontact/del_corp_tag_list?access_token=ACCESS_TOKEN";
+    String DELETE_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/del_corp_tag_list?access_token=";
     ErrorDTO deleteCorpTagList(QywxDeleteTagDTO qywxDeleteTagDTO);
 
 
-    String EDIT_USER_TAG_LIST = WX_API_DOMAIN + "cgi-bin/externalcontact/mark_tag?access_token=ACCESS_TOKEN";
+    String EDIT_USER_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/mark_tag?access_token=";
     ErrorDTO editUserCorpTagList(QywxEditUserTagDTO qywxEditUserTagDTO);
 
 

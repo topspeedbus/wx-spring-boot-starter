@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
 
@@ -22,11 +21,17 @@ import java.util.concurrent.TimeUnit;
  * @date: 2023/3/31 - 16:22
  * @description:
  **/
-@Service
 public class QYWXServiceImpl  implements QYWXService {
 
     private static final Logger log = LoggerFactory.getLogger(QYWXServiceImpl.class);
 
+    public QYWXServiceImpl() {
+    }
+
+    public QYWXServiceImpl(String corpid, String corpsecret) {
+        this.corpid = corpid;
+        this.corpsecret = corpsecret;
+    }
 
     @Autowired
     private RestTemplate restTemplate;
@@ -92,9 +97,9 @@ public class QYWXServiceImpl  implements QYWXService {
     }
 
     @Override
-    public QywxTagOuterDTO createTag(QywxTagOuterDTO qywxTagOuterDTO) {
+    public QywxTagGroupOuterDTO createTag(QywxTagGroupDTO qywxTagOuterDTO) {
         String token = getToken();
-        return restTemplate.postForObject(CREATE_TAG + token, qywxTagOuterDTO, QywxTagOuterDTO.class);
+        return restTemplate.postForObject(CREATE_TAG + token, qywxTagOuterDTO, QywxTagGroupOuterDTO.class);
     }
 
     @Override
