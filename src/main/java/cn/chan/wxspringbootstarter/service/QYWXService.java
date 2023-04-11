@@ -129,7 +129,7 @@ public interface QYWXService {
      * 编辑标签列表
      *
      */
-    String EDIT_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/edit_corp_tag_list?access_token=";
+    String EDIT_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/edit_corp_tag?access_token=";
     ErrorDTO editCorpTagList(QywxEditTagDTO qywxEditTagDTO);
 
     /**
