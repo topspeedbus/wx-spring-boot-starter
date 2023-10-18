@@ -142,7 +142,7 @@ public interface QYWXService {
      * 如果一个标签组下所有的标签均被删除，则标签组会被自动删除。
      *
      */
-    String DELETE_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/del_corp_tag_list?access_token=";
+    String DELETE_TAG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/del_corp_tag?access_token=";
     ErrorDTO deleteCorpTagList(QywxDeleteTagDTO qywxDeleteTagDTO);
 
 
@@ -153,5 +153,48 @@ public interface QYWXService {
 
 
     /************************************************标签管理*****************************************************************/
+
+
+    /************************************************通讯录*****************************************************************/
+
+    /**
+     * 获取部门列表
+     * 请求方式：GET（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/department/list?access_token=ACCESS_TOKEN&id=ID
+     */
+    String DEPARTMENT_LIST = WX_API_DOMAIN + "/cgi-bin/department/list?access_token=";
+
+    QwDepartmentListDTO getDepartmentList();
+
+    /**
+     * 获取成员ID列表
+     * 请求方式：POST（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/user/list_id?access_token=ACCESS_TOKEN
+     */
+    String DEPARTMENT_USERID_LIST = WX_API_DOMAIN + "/cgi-bin/user/list_id?access_token=";
+
+    QwDeptUserIdOuterDTO getDepartmentIdUserIdList();
+
+    /**
+     * 读取成员
+     * 请求方式：GET（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&userid=USERID
+     */
+    String USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/get?access_token={token}&userid={userId}";
+
+    QwUserDTO getUserInfo(String userId);
+
+    /**
+     * 读取部门成员详情
+     * 请求方式：GET（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token=ACCESS_TOKEN&userid=USERID
+     */
+    String DEPARTMENT_USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/list?access_token={token}&department_id={departmentId}";
+
+    QwDepartmentUserOuterDTO getDepartmentUserInfo(Integer departmentId);
+
+
+    /************************************************通讯录*****************************************************************/
+
 
 }

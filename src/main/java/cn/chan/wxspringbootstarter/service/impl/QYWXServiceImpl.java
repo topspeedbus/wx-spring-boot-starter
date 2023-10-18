@@ -2,6 +2,7 @@ package cn.chan.wxspringbootstarter.service.impl;
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.QwBatchGetExternalUserInfoQO;
+import cn.chan.wxspringbootstarter.entity.qo.QwCommonListQO;
 import cn.chan.wxspringbootstarter.entity.qo.QwEditUserMarkQO;
 import cn.chan.wxspringbootstarter.service.QYWXService;
 import com.alibaba.fastjson2.JSON;
@@ -93,7 +94,7 @@ public class QYWXServiceImpl  implements QYWXService {
     @Override
     public ErrorDTO mark(QwEditUserMarkQO userMarkQO) {
         String token = getToken();
-        return restTemplate.postForObject(GET_TAG_LIST + token, userMarkQO, ErrorDTO.class);
+        return restTemplate.postForObject(EXTERNAL_CONTRACT_MARK + token, userMarkQO, ErrorDTO.class);
     }
 
     @Override
@@ -125,6 +126,31 @@ public class QYWXServiceImpl  implements QYWXService {
     public ErrorDTO editUserCorpTagList(QywxEditUserTagDTO qywxEditUserTagDTO) {
         String token = getToken();
         return restTemplate.postForObject(EDIT_USER_TAG_LIST + token, qywxEditUserTagDTO, ErrorDTO.class);
+    }
+
+    @Override
+    public QwDepartmentListDTO getDepartmentList() {
+        String token = getToken();
+        return restTemplate.getForObject(DEPARTMENT_LIST + token, QwDepartmentListDTO.class);
+    }
+
+    @Override
+    public QwDeptUserIdOuterDTO getDepartmentIdUserIdList() {
+        QwCommonListQO commonListQO = new QwCommonListQO();
+        String token = getToken();
+        return restTemplate.postForObject(DEPARTMENT_USERID_LIST + token, commonListQO, QwDeptUserIdOuterDTO.class);
+    }
+
+    @Override
+    public QwUserDTO getUserInfo(String userId) {
+        String token = getToken();
+        return restTemplate.getForObject(USER_INFO, QwUserDTO.class, token, userId);
+    }
+
+    @Override
+    public QwDepartmentUserOuterDTO getDepartmentUserInfo(Integer departmentId) {
+        String token = getToken();
+        return restTemplate.getForObject(DEPARTMENT_USER_INFO, QwDepartmentUserOuterDTO.class, token, departmentId);
     }
 
 
