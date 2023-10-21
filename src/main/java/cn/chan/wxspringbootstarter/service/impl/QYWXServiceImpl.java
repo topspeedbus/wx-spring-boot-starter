@@ -1,9 +1,7 @@
 package cn.chan.wxspringbootstarter.service.impl;
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
-import cn.chan.wxspringbootstarter.entity.qo.QwBatchGetExternalUserInfoQO;
-import cn.chan.wxspringbootstarter.entity.qo.QwCommonListQO;
-import cn.chan.wxspringbootstarter.entity.qo.QwEditUserMarkQO;
+import cn.chan.wxspringbootstarter.entity.qo.*;
 import cn.chan.wxspringbootstarter.service.QYWXService;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -11,10 +9,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,7 +31,7 @@ import java.util.concurrent.TimeUnit;
  * @date: 2023/3/31 - 16:22
  * @description:
  **/
-public class QYWXServiceImpl  implements QYWXService {
+public class QYWXServiceImpl implements QYWXService {
 
     private static final Logger log = LoggerFactory.getLogger(QYWXServiceImpl.class);
 
@@ -153,5 +162,83 @@ public class QYWXServiceImpl  implements QYWXService {
         return restTemplate.getForObject(DEPARTMENT_USER_INFO, QwDepartmentUserOuterDTO.class, token, departmentId);
     }
 
+    @Override
+    public GroupSendRespDTO groupSend(GroupSendDTO groupSendDTO) {
+        String token = getToken();
+        return restTemplate.postForObject(GROUP_SEND + token, groupSendDTO, GroupSendRespDTO.class);
+    }
+
+    @Override
+    public ErrorDTO remindGroupMsgSend(QWMentionUserSendQO mentionUserSendQO) {
+        String token = getToken();
+        return restTemplate.postForObject(REMIND_GROUP_MSG_SEND + token, mentionUserSendQO, ErrorDTO.class);
+    }
+
+    @Override
+    public ErrorDTO cancelGroupMsgSend(QWMentionUserSendQO mentionUserSendQO) {
+        String token = getToken();
+        return restTemplate.postForObject(CANCEL_GROUP_MSG_SEND + token, mentionUserSendQO, ErrorDTO.class);
+    }
+
+    @Override
+    public groupSendMsgQueryDTO getGroupMsgTask(GroupSendMsgQueryQO groupSendMsgQueryQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_GROUP_MSG_TASK + token, groupSendMsgQueryQO, groupSendMsgQueryDTO.class);
+    }
+
+    @Override
+    public groupSendMsgQueryDTO getGroupMsgResult(GroupSendMsgQueryQO groupSendMsgQueryQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_GROUP_MSG_RESULT + token, groupSendMsgQueryQO, groupSendMsgQueryDTO.class);
+    }
+
+    @Override
+    public FileUploadResp mediaUpload(UrlFileUploadQO urlFileUploadQO) {
+        //读取网络图片
+        ResponseEntity<byte[]> rsp = restTemplate.getForEntity(urlFileUploadQO.getUrl(), byte[].class);
+        HttpHeaders responseHeader = rsp.getHeaders();
+        byte[] body = rsp.getBody();
+        MultipartFile file = new MockMultipartFile(urlFileUploadQO.getFileName().split("\\.")[0], urlFileUploadQO.getFileName(), responseHeader.getContentType().toString(), body);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+        headers.setContentLength(file.getSize());
+        headers.setContentDispositionFormData("media", file.getName());
+        MultiValueMap<String, Object> param = new LinkedMultiValueMap<>();
+
+        param.add("file", file.getResource());
+        HttpEntity<MultiValueMap<String, Object>> formEntity = new HttpEntity<>(param, headers);
+
+        String token = getToken();
+        String url = MEDIA_UPLOAD.replace("param1", urlFileUploadQO.getType());
+        return restTemplate.postForObject(url + token, formEntity, FileUploadResp.class);
+    }
+
+    private File toFile(MultipartFile multipartFile) {
+        //文件上传前的名称
+        String fileName = multipartFile.getOriginalFilename();
+        File file = new File(fileName);
+        OutputStream out = null;
+        try {
+            //获取文件流，以文件流的方式输出到新文件
+            out = new FileOutputStream(file);
+            byte[] ss = multipartFile.getBytes();
+            for (int i = 0; i < ss.length; i++) {
+                out.write(ss[i]);
+            }
+            return file;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } finally {
+            if (out != null) {
+                try {
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
 
 }

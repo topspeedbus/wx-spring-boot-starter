@@ -2,8 +2,7 @@ package cn.chan.wxspringbootstarter.service;
 
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
-import cn.chan.wxspringbootstarter.entity.qo.QwBatchGetExternalUserInfoQO;
-import cn.chan.wxspringbootstarter.entity.qo.QwEditUserMarkQO;
+import cn.chan.wxspringbootstarter.entity.qo.*;
 
 /**
  * @author: piaoxue
@@ -195,6 +194,78 @@ public interface QYWXService {
 
 
     /************************************************通讯录*****************************************************************/
+
+    /************************************************群发*****************************************************************/
+    /**
+     * 创建企业群发
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/add_msg_template?access_token=ACCESS_TOKEN
+     */
+
+    String GROUP_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/add_msg_template?access_token=";
+
+    GroupSendRespDTO groupSend(GroupSendDTO groupSendDTO);
+
+    /**
+     * 提醒成员群发
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
+     */
+
+    String REMIND_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/remind_groupmsg_send?access_token=";
+
+    ErrorDTO remindGroupMsgSend(QWMentionUserSendQO mentionUserSendQO);
+
+    /**
+     * 停止企业群发
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
+     */
+
+    String CANCEL_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/cancel_groupmsg_send?access_token=";
+
+    ErrorDTO cancelGroupMsgSend(QWMentionUserSendQO mentionUserSendQO);
+
+    /**
+     * 获取群发成员发送任务列表
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
+     */
+
+    String GET_GROUP_MSG_TASK = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/get_groupmsg_task?access_token=";
+
+    groupSendMsgQueryDTO getGroupMsgTask(GroupSendMsgQueryQO groupSendMsgQueryQO);
+
+    /**
+     * 获取企业群发成员执行结果
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
+     */
+
+    String GET_GROUP_MSG_RESULT = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/get_groupmsg_send_result?access_token=";
+
+    groupSendMsgQueryDTO getGroupMsgResult(GroupSendMsgQueryQO groupSendMsgQueryQO);
+    /************************************************群发*****************************************************************/
+
+
+    /************************************************文件上传*****************************************************************/
+    /**
+     * 获取企业群发成员执行结果
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/media/upload?access_token=ACCESS_TOKEN&type=TYPE";
+     */
+
+    String MEDIA_UPLOAD = WX_API_DOMAIN + "/cgi-bin/media/upload?type=param1&access_token=";
+
+    FileUploadResp mediaUpload(UrlFileUploadQO urlFileUploadQO);
+
+    /************************************************文件上传*****************************************************************/
 
 
 }
