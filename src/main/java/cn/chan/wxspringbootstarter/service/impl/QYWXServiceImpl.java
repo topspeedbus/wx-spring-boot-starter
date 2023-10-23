@@ -193,6 +193,12 @@ public class QYWXServiceImpl implements QYWXService {
     }
 
     @Override
+    public ErrorDTO sendWelcomeMsg(WelcomeMsgQO welcomeMsgQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_GROUP_MSG_RESULT + token, welcomeMsgQO, ErrorDTO.class);
+    }
+
+    @Override
     public FileUploadResp mediaUpload(UrlFileUploadQO urlFileUploadQO) {
         //读取网络图片
         ResponseEntity<byte[]> rsp = restTemplate.getForEntity(urlFileUploadQO.getUrl(), byte[].class);

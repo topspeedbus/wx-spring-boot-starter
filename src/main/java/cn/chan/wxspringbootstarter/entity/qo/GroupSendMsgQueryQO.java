@@ -10,6 +10,7 @@ import lombok.Data;
 @Data
 public class GroupSendMsgQueryQO {
     private String msgid;
+    private String userid;
     private Integer limit;
     private String cursor;
 }

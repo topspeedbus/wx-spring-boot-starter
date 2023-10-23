@@ -250,6 +250,20 @@ public interface QYWXService {
     String GET_GROUP_MSG_RESULT = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/get_groupmsg_send_result?access_token=";
 
     groupSendMsgQueryDTO getGroupMsgResult(GroupSendMsgQueryQO groupSendMsgQueryQO);
+
+    /**
+     * 发送新客户欢迎语
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/send_welcome_msg?access_token=ACCESS_TOKEN
+     */
+
+    String SEND_WELCOME_MSG = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/send_welcome_msg?access_token=";
+
+    ErrorDTO sendWelcomeMsg(WelcomeMsgQO welcomeMsgQO);
+
+
+
     /************************************************群发*****************************************************************/
 
 
