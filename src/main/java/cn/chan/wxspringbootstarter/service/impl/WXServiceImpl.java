@@ -86,6 +86,22 @@ public class WXServiceImpl implements WXService {
     }
 
     @Override
+    public String getToken1() {
+
+        log.info("当前appid: {}, appkey: {}", appId, appSecret);
+
+        ResponseEntity<WXTokenDTO> mapEntity = restTemplate.getForEntity(GET_TOKEN_URL, WXTokenDTO.class, appId, appSecret);
+        WXTokenDTO token = mapEntity.getBody();
+        log.info("返回token结果: {}", JSON.toJSON(token));
+        if (ObjectUtils.isEmpty(token)) {
+            log.error("获取微信token失败 :{}", mapEntity);
+            throw new RuntimeException("获取微信token失败！");
+        }
+
+        return token.getAccess_token();
+    }
+
+    @Override
     public WXTokenDTO getTokenByCode(String code) {
         ResponseEntity<String> mapEntity = restTemplate.getForEntity(GET_TOKEN_BY_CODE, String.class, appId, appSecret, code);
 
@@ -97,7 +113,7 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public WXUrlSchemaDTO genUrlSchema(WxUrlSchemaOuterQO urlSchemaOuterQO) {
-        String token = getToken();
+        String token = getToken1();
         WxUrlSchemaQO jump_wxa = urlSchemaOuterQO.getJump_wxa();
         jump_wxa.setPath(path);
         jump_wxa.setQuery(query);
@@ -137,8 +153,7 @@ public class WXServiceImpl implements WXService {
 
     @Override
     public String urlLink(WxUrlLinkQO wxUrlLinkQO) {
-
-        String token = getToken();
+        String token = getToken1();
 
 //        JSONObject jsonObject = new JSONObject();
 //        jsonObject.put("query", "");

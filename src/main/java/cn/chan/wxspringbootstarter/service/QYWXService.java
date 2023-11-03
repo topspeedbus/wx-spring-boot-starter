@@ -166,6 +166,18 @@ public interface QYWXService {
     QwDepartmentListDTO getDepartmentList();
 
     /**
+     *企业通讯录安全特别重要，企业微信将持续升级加固通讯录接口的安全机制，以下是关键的变更点：
+     *
+     * 【重要】从2022年8月15日10点开始，“企业管理后台 - 管理工具 - 通讯录同步”的新增IP将不能再调用此接口，企业可通过「获取部门ID列表」接口获取部门ID列表。查看调整详情。
+     * -
+     * 请求方式：GET（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/department/get?access_token=ACCESS_TOKEN&id=ID
+     */
+    String DEPARTMENT_DETAIL = WX_API_DOMAIN + "/cgi-bin/department/get?access_token={token}&id={departmentId}";
+
+    QwDepartmentDetailDTO getDepartmentDetail(Integer departmentId);
+
+    /**
      * 获取成员ID列表
      * 请求方式：POST（HTTPS）
      * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/user/list_id?access_token=ACCESS_TOKEN
@@ -203,7 +215,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/add_msg_template?access_token=ACCESS_TOKEN
      */
 
-    String GROUP_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/add_msg_template?access_token=";
+    String GROUP_SEND = WX_API_DOMAIN + "/cgi-bin/externalcontact/add_msg_template?access_token=";
 
     GroupSendRespDTO groupSend(GroupSendDTO groupSendDTO);
 
@@ -214,7 +226,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
      */
 
-    String REMIND_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/remind_groupmsg_send?access_token=";
+    String REMIND_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/externalcontact/remind_groupmsg_send?access_token=";
 
     ErrorDTO remindGroupMsgSend(QWMentionUserSendQO mentionUserSendQO);
 
@@ -225,7 +237,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
      */
 
-    String CANCEL_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/cancel_groupmsg_send?access_token=";
+    String CANCEL_GROUP_MSG_SEND = WX_API_DOMAIN + "/cgi-bin/externalcontact/cancel_groupmsg_send?access_token=";
 
     ErrorDTO cancelGroupMsgSend(QWMentionUserSendQO mentionUserSendQO);
 
@@ -236,7 +248,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
      */
 
-    String GET_GROUP_MSG_TASK = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/get_groupmsg_task?access_token=";
+    String GET_GROUP_MSG_TASK = WX_API_DOMAIN + "/cgi-bin/externalcontact/get_groupmsg_task?access_token=";
 
     groupSendMsgQueryDTO getGroupMsgTask(GroupSendMsgQueryQO groupSendMsgQueryQO);
 
@@ -247,7 +259,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
      */
 
-    String GET_GROUP_MSG_RESULT = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/get_groupmsg_send_result?access_token=";
+    String GET_GROUP_MSG_RESULT = WX_API_DOMAIN + "/cgi-bin/externalcontact/get_groupmsg_send_result?access_token=";
 
     groupSendMsgQueryDTO getGroupMsgResult(GroupSendMsgQueryQO groupSendMsgQueryQO);
 
@@ -258,7 +270,7 @@ public interface QYWXService {
      * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/send_welcome_msg?access_token=ACCESS_TOKEN
      */
 
-    String SEND_WELCOME_MSG = WX_API_DOMAIN + "/cgi-bin/user/externalcontact/send_welcome_msg?access_token=";
+    String SEND_WELCOME_MSG = WX_API_DOMAIN + "/cgi-bin/externalcontact/send_welcome_msg?access_token=";
 
     ErrorDTO sendWelcomeMsg(WelcomeMsgQO welcomeMsgQO);
 

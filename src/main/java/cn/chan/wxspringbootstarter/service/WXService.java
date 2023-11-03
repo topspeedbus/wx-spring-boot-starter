@@ -41,6 +41,7 @@ public interface WXService {
      * @return
      */
     String getToken();
+    String getToken1();
 
     /**
      * 公众号根据code获取token信息

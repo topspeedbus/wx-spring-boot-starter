@@ -53,8 +53,10 @@ public class WXConfiguration {
     )
     public Map<String, WXService> getWxServiceMap(@Qualifier("copWxService")WXService copWxService, @Qualifier("cmsWxService")WXService cmsWxService) {
         Map<String, WXService> map = new HashMap<>(2);
-        map.put("官方商城", copWxService);
-        map.put("POS门店", cmsWxService);
+//        map.put("蕉下官方商城", copWxService);
+//        map.put("蕉下品牌官方商城", cmsWxService);
+        map.put("JXGFSC", copWxService);
+        map.put("JXPPGFSC", cmsWxService);
         return map;
     }
 

@@ -15,12 +15,12 @@ public class WXProperties {
     private String copAppId;
     private String copSecret;
     private String copPath;
-    private String copQuery;
+    private String copQuery = "";
 
     private String cmsAppId;
     private String cmsSecret;
     private String cmsPath;
-    private String cmsQuery;
+    private String cmsQuery = "";
 
     public String getCopAppId() {
         return copAppId;

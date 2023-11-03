@@ -144,6 +144,12 @@ public class QYWXServiceImpl implements QYWXService {
     }
 
     @Override
+    public QwDepartmentDetailDTO getDepartmentDetail(Integer departmentId) {
+        String token = getToken();
+        return restTemplate.getForObject(DEPARTMENT_DETAIL, QwDepartmentDetailDTO.class, token, departmentId);
+    }
+
+    @Override
     public QwDeptUserIdOuterDTO getDepartmentIdUserIdList() {
         QwCommonListQO commonListQO = new QwCommonListQO();
         String token = getToken();
@@ -195,7 +201,7 @@ public class QYWXServiceImpl implements QYWXService {
     @Override
     public ErrorDTO sendWelcomeMsg(WelcomeMsgQO welcomeMsgQO) {
         String token = getToken();
-        return restTemplate.postForObject(GET_GROUP_MSG_RESULT + token, welcomeMsgQO, ErrorDTO.class);
+        return restTemplate.postForObject(SEND_WELCOME_MSG + token, welcomeMsgQO, ErrorDTO.class);
     }
 
     @Override
