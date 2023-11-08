@@ -46,11 +46,13 @@ public class WXServiceImpl implements WXService {
     public WXServiceImpl() {
     }
 
-    public WXServiceImpl(String appId, String appSecret, String path, String query) {
+    public WXServiceImpl(String appId, String appSecret, String path, String query, RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.appId = appId;
         this.appSecret = appSecret;
         this.path = path;
         this.query = query;
+        this.restTemplate = restTemplate;
+        this.redisTemplate = redisTemplate;
     }
 
     public WXServiceImpl(String appId, String appSecret) {
