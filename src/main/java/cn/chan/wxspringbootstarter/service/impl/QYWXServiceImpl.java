@@ -27,7 +27,7 @@ import java.io.OutputStream;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/3/31 - 16:22
  * @description:
  **/
@@ -74,6 +74,18 @@ public class QYWXServiceImpl implements QYWXService {
         redisTemplate.expire(TOKEN_REDIS_KEY_PREFIX + corpid, token.getExpires_in(), TimeUnit.SECONDS);
 
         return token.getAccess_token();
+    }
+
+    @Override
+    public Code2SessionDTO code2Session(String code) {
+        String token = getToken();
+        return restTemplate.getForObject(CODE_TO_SESSION_URL, Code2SessionDTO.class, token, code);
+    }
+
+    @Override
+    public JsApiTicketDTO jsapiTicket() {
+        String token = getToken();
+        return restTemplate.getForObject(JSAPI_TICKET, JsApiTicketDTO.class, token);
     }
 
     @Override

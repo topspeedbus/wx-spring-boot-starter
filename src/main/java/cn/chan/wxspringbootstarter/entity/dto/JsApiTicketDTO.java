@@ -8,6 +8,7 @@ import lombok.Data;
  * @description:
  **/
 @Data
-public class ContentDTO {
-    private String content;
+public class JsApiTicketDTO extends ErrorDTO{
+    private String ticket;
+    private Long expires_in;
 }

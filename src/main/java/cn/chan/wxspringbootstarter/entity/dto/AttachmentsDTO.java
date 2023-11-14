@@ -3,7 +3,7 @@ package cn.chan.wxspringbootstarter.entity.dto;
 import lombok.Data;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/10/18 - 16:01
  * @description:
  **/

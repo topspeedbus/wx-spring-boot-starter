@@ -8,6 +8,8 @@ import lombok.Data;
  * @description:
  **/
 @Data
-public class ContentDTO {
-    private String content;
+public class Code2SessionDTO extends ErrorDTO{
+    private String corpid;
+    private String userid;
+    private String session_key;
 }

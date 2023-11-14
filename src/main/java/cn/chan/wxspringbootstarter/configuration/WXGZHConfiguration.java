@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/1/9 - 17:00
  * @description:
  **/

@@ -3,7 +3,7 @@ package cn.chan.wxspringbootstarter.entity.dto;
 import java.util.List;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/3/16 - 17:24
  * @description:
  **/

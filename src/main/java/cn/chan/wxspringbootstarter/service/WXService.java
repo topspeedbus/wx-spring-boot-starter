@@ -10,7 +10,7 @@ import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
 import java.util.List;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/3/13 - 18:08
  * @description:
  **/

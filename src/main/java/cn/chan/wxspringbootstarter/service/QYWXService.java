@@ -5,7 +5,7 @@ import cn.chan.wxspringbootstarter.entity.dto.*;
 import cn.chan.wxspringbootstarter.entity.qo.*;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/3/13 - 18:08
  * @description:
  **/
@@ -17,6 +17,18 @@ public interface QYWXService {
      */
     String GET_TOKEN_URL = WX_API_DOMAIN + "/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}";
     String getToken();
+
+    /**
+     * 获取token
+     */
+    String CODE_TO_SESSION_URL = WX_API_DOMAIN + "/cgi-bin/miniprogram/jscode2session?access_token={token}&js_code={code}&grant_type=authorization_code";
+    Code2SessionDTO code2Session(String code);
+
+    /**
+     * 获取jsapi_ticket
+     */
+    String JSAPI_TICKET = WX_API_DOMAIN + "/cgi-bin/get_jsapi_ticket?access_token={token}";
+    JsApiTicketDTO jsapiTicket();
 
     /**
      * token redis key

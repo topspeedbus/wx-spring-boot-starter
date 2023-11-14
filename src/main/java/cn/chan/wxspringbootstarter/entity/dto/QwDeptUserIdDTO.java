@@ -1,7 +1,7 @@
 package cn.chan.wxspringbootstarter.entity.dto;
 
 /**
- * @author: piaoxue
+ * @author: chan
  * @date: 2023/10/12 - 11:02
  * @description:
  **/
