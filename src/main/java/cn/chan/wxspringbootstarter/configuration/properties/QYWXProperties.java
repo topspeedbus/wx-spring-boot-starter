@@ -1,6 +1,7 @@
 package cn.chan.wxspringbootstarter.configuration.properties;
 
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -8,24 +9,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date: 2023/1/9 - 16:57
  * @description:
  **/
+@Data
 @ConfigurationProperties(prefix = "wx.qw.config")
 public class QYWXProperties {
     private String appId;
     private String appSecret;
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getAppSecret() {
-        return appSecret;
-    }
-
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
-    }
+    private String crmAgentId;
+    private String crmAgentSecret;
 }

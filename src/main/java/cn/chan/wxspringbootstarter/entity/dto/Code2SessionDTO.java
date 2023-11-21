@@ -12,4 +12,5 @@ public class Code2SessionDTO extends ErrorDTO{
     private String corpid;
     private String userid;
     private String session_key;
+    private String user_ticket;
 }

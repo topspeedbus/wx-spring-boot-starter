@@ -29,6 +29,6 @@ public class SZQWWXConfiguration {
             value = {"wx.szqw.config.appId"}
     )
     public QYWXService szQywxService() {
-        return new QYWXServiceImpl(qywxProperties.getAppId(), qywxProperties.getAppSecret());
+        return new QYWXServiceImpl(qywxProperties.getAppId(), qywxProperties.getAppSecret(), qywxProperties.getCrmAgentId(), qywxProperties.getCrmAgentSecret());
     }
 }

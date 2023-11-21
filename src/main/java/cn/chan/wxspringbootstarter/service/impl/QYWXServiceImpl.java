@@ -43,6 +43,13 @@ public class QYWXServiceImpl implements QYWXService {
         this.corpsecret = corpsecret;
     }
 
+    public QYWXServiceImpl(String corpid, String corpsecret, String crmAgentId, String crmAgentSecret) {
+        this.corpid = corpid;
+        this.corpsecret = corpsecret;
+        this.crmAgentId = crmAgentId;
+        this.crmAgentSecret = crmAgentSecret;
+    }
+
     @Autowired
     private RestTemplate restTemplate;
 
@@ -51,12 +58,21 @@ public class QYWXServiceImpl implements QYWXService {
 
     private String corpid;
     private String corpsecret;
+    private String crmAgentId;
+    private String crmAgentSecret;
+
+    @Override
+    public String getCrmAgentId() {
+        return crmAgentId;
+    }
 
     @Override
     public String getToken() {
         log.info("当前appid: {}, appkey: {}", corpid, corpsecret);
         //先获取redis中得token
-        Object tokenRedis = redisTemplate.opsForValue().get(TOKEN_REDIS_KEY_PREFIX + corpid);
+        String tokenKey = TOKEN_REDIS_KEY_PREFIX + corpid;
+        log.info("当前tokenkey: {}, corpID: {}", tokenKey, corpid);
+        Object tokenRedis = redisTemplate.opsForValue().get(tokenKey);
         if (!ObjectUtils.isEmpty(tokenRedis)) {
             return String.valueOf(tokenRedis);
         }
@@ -70,10 +86,42 @@ public class QYWXServiceImpl implements QYWXService {
         }
 
         //设置redis
-        redisTemplate.opsForValue().set(TOKEN_REDIS_KEY_PREFIX + corpid, token.getAccess_token());
-        redisTemplate.expire(TOKEN_REDIS_KEY_PREFIX + corpid, token.getExpires_in(), TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(tokenKey, token.getAccess_token());
+        redisTemplate.expire(tokenKey, token.getExpires_in(), TimeUnit.SECONDS);
 
         return token.getAccess_token();
+    }
+
+    @Override
+    public String getAgentToken() {
+        log.info("当前crmAgentId: {}, crmAgentSecret: {}, corpID: {}", crmAgentId, crmAgentSecret, corpid);
+        //先获取redis中得token
+        String tokenKey = TOKEN_REDIS_KEY_PREFIX + corpid + ":" + crmAgentId;
+        log.info("当前tokenkey: {}, corpID: {}, crmAgentId: {}", tokenKey, corpid, crmAgentId);
+        Object tokenRedis = redisTemplate.opsForValue().get(tokenKey);
+        if (!ObjectUtils.isEmpty(tokenRedis)) {
+            return String.valueOf(tokenRedis);
+        }
+
+        ResponseEntity<WXTokenDTO> mapEntity = restTemplate.getForEntity(GET_TOKEN_URL, WXTokenDTO.class, corpid, crmAgentSecret);
+        WXTokenDTO token = mapEntity.getBody();
+        log.info("返回token结果: {}", JSON.toJSON(token));
+        if (ObjectUtils.isEmpty(token)) {
+            log.error("获取微信token失败 :{}", mapEntity);
+            throw new RuntimeException("获取微信token失败！");
+        }
+
+        //设置redis
+        redisTemplate.opsForValue().set(tokenKey, token.getAccess_token());
+        redisTemplate.expire(tokenKey, token.getExpires_in(), TimeUnit.SECONDS);
+
+        return token.getAccess_token();
+    }
+
+    @Override
+    public Code2SessionDTO getuserinfoByCode(String code) {
+        String token = getAgentToken();
+        return restTemplate.getForObject(GETUSERINFO_BY_CODE, Code2SessionDTO.class, token, code);
     }
 
     @Override
@@ -86,6 +134,12 @@ public class QYWXServiceImpl implements QYWXService {
     public JsApiTicketDTO jsapiTicket() {
         String token = getToken();
         return restTemplate.getForObject(JSAPI_TICKET, JsApiTicketDTO.class, token);
+    }
+
+    @Override
+    public JsApiTicketDTO jsapiTicketApp() {
+        String token = getAgentToken();
+        return restTemplate.getForObject(JSAPI_TICKET_APP, JsApiTicketDTO.class, token);
     }
 
     @Override

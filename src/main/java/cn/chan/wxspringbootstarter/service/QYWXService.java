@@ -11,12 +11,21 @@ import cn.chan.wxspringbootstarter.entity.qo.*;
  **/
 public interface QYWXService {
 
+    String getCrmAgentId();
+
     String WX_API_DOMAIN = "https://qyapi.weixin.qq.com";
     /**
      * 获取token
      */
     String GET_TOKEN_URL = WX_API_DOMAIN + "/cgi-bin/gettoken?corpid={corpid}&corpsecret={corpsecret}";
     String getToken();
+    String getAgentToken();
+
+    /**
+     * 获取token
+     */
+    String GETUSERINFO_BY_CODE = WX_API_DOMAIN + "/cgi-bin/auth/getuserinfo?access_token={token}&code={code}";
+    Code2SessionDTO getuserinfoByCode(String code);
 
     /**
      * 获取token
@@ -29,6 +38,13 @@ public interface QYWXService {
      */
     String JSAPI_TICKET = WX_API_DOMAIN + "/cgi-bin/get_jsapi_ticket?access_token={token}";
     JsApiTicketDTO jsapiTicket();
+
+    /**
+     * 获取jsapi_ticket
+     * https://qyapi.weixin.qq.com/cgi-bin/ticket/get?access_token=ACCESS_TOKEN&type=agent_config
+     */
+    String JSAPI_TICKET_APP = WX_API_DOMAIN + "/cgi-bin/ticket/get?access_token={token}&type=agent_config";
+    JsApiTicketDTO jsapiTicketApp();
 
     /**
      * token redis key
