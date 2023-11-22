@@ -11,6 +11,10 @@ import cn.chan.wxspringbootstarter.entity.qo.*;
  **/
 public interface QYWXService {
 
+    String getCorpid();
+
+    String getAppName();
+
     String getCrmAgentId();
 
     String WX_API_DOMAIN = "https://qyapi.weixin.qq.com";

@@ -43,23 +43,41 @@ public class QYWXServiceImpl implements QYWXService {
         this.corpsecret = corpsecret;
     }
 
-    public QYWXServiceImpl(String corpid, String corpsecret, String crmAgentId, String crmAgentSecret) {
-        this.corpid = corpid;
-        this.corpsecret = corpsecret;
-        this.crmAgentId = crmAgentId;
-        this.crmAgentSecret = crmAgentSecret;
-    }
-
     @Autowired
     private RestTemplate restTemplate;
 
     @Autowired
     private RedisTemplate redisTemplate;
 
+    @Override
+    public String getCorpid() {
+        return corpid;
+    }
+
     private String corpid;
     private String corpsecret;
     private String crmAgentId;
     private String crmAgentSecret;
+
+    @Override
+    public String getAppName() {
+        return appName;
+    }
+
+    private String appName;
+    private String nameCode;
+
+    public QYWXServiceImpl(String corpid, String corpsecret, String crmAgentId, String crmAgentSecret, String appName, String nameCode, RestTemplate restTemplate, RedisTemplate redisTemplate) {
+        this.corpid = corpid;
+        this.corpsecret = corpsecret;
+        this.crmAgentId = crmAgentId;
+        this.crmAgentSecret = crmAgentSecret;
+        this.restTemplate = restTemplate;
+        this.appName = appName;
+        this.nameCode = nameCode;
+        this.redisTemplate = redisTemplate;
+    }
+
 
     @Override
     public String getCrmAgentId() {
