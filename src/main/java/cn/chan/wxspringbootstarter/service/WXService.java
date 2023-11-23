@@ -80,7 +80,7 @@ public interface WXService {
     /**
      * 批量获取用户信息
      */
-    String USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/info?access_token=";
+    String USER_INFO = WX_API_DOMAIN + "/cgi-bin/user/info?access_token={token}&openid={openId}&lang=zh_CN";
     WxUserInfoDTO getUserInfo(String openId);
 
     /**

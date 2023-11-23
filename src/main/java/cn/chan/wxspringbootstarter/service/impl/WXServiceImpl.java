@@ -188,7 +188,7 @@ public class WXServiceImpl implements WXService {
     @Override
     public WxUserInfoDTO getUserInfo(String openId) {
         String token = getToken();
-        ResponseEntity<WxUserInfoDTO> entity = restTemplate.getForEntity(USER_INFO, WxUserInfoDTO.class, token);
+        ResponseEntity<WxUserInfoDTO> entity = restTemplate.getForEntity(USER_INFO, WxUserInfoDTO.class, token, openId);
         return entity.getBody();
     }
 

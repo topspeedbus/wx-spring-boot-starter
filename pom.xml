@@ -11,7 +11,7 @@
     <groupId>cn.chan</groupId>
     <artifactId>wx-spring-boot-starter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-<!--    <version>0.0.1-release</version>-->
+<!--    <version>0.0.2-release</version>-->
     <name>wx-spring-boot-starter</name>
     <description>Demo project for Spring Boot</description>
     <properties>
