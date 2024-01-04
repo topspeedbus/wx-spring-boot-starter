@@ -143,6 +143,12 @@ public class QYWXServiceImpl implements QYWXService {
     }
 
     @Override
+    public QwUserDTO getUserInfoDetailByTicket(Code2SessionDTO ticket) {
+        String token = getAgentToken();
+        return restTemplate.postForObject(GET_USERINFO_DETAIL + token, ticket, QwUserDTO.class);
+    }
+
+    @Override
     public Code2SessionDTO code2Session(String code) {
         String token = getToken();
         return restTemplate.getForObject(CODE_TO_SESSION_URL, Code2SessionDTO.class, token, code);
@@ -150,14 +156,38 @@ public class QYWXServiceImpl implements QYWXService {
 
     @Override
     public JsApiTicketDTO jsapiTicket() {
+        String tokenKey = TICKET_REDIS_KEY_PREFIX + corpid;
+        Object ticketRedis = redisTemplate.opsForValue().get(tokenKey);
+        if (!ObjectUtils.isEmpty(ticketRedis)) {
+            return (JsApiTicketDTO) ticketRedis;
+        }
+
         String token = getToken();
-        return restTemplate.getForObject(JSAPI_TICKET, JsApiTicketDTO.class, token);
+        return getJsApiTicketDTO(tokenKey, token);
+    }
+
+    private JsApiTicketDTO getJsApiTicketDTO(String tokenKey, String token) {
+        JsApiTicketDTO ticketDTO = restTemplate.getForObject(JSAPI_TICKET, JsApiTicketDTO.class, token);
+
+        log.info("jsapiTicket获取到ticket: {}", ticketDTO);
+        ticketDTO.checkIfError();
+
+        //设置redis
+        redisTemplate.opsForValue().set(tokenKey, ticketDTO);
+        redisTemplate.expire(tokenKey, ticketDTO.getExpires_in(), TimeUnit.SECONDS);
+        return ticketDTO;
     }
 
     @Override
     public JsApiTicketDTO jsapiTicketApp() {
+        String tokenKey = TICKET_REDIS_KEY_PREFIX + corpid + ":" + crmAgentId;
+        Object ticketRedis = redisTemplate.opsForValue().get(tokenKey);
+        if (!ObjectUtils.isEmpty(ticketRedis)) {
+            return (JsApiTicketDTO) ticketRedis;
+        }
+
         String token = getAgentToken();
-        return restTemplate.getForObject(JSAPI_TICKET_APP, JsApiTicketDTO.class, token);
+        return getJsApiTicketDTO(tokenKey, token);
     }
 
     @Override
@@ -242,7 +272,7 @@ public class QYWXServiceImpl implements QYWXService {
 
     @Override
     public QwUserDTO getUserInfo(String userId) {
-        String token = getToken();
+        String token = getAgentToken();
         return restTemplate.getForObject(USER_INFO, QwUserDTO.class, token, userId);
     }
 
@@ -308,6 +338,12 @@ public class QYWXServiceImpl implements QYWXService {
         String token = getToken();
         String url = MEDIA_UPLOAD.replace("param1", urlFileUploadQO.getType());
         return restTemplate.postForObject(url + token, formEntity, FileUploadResp.class);
+    }
+
+    @Override
+    public QwSendAppMsgResp sendAppMessage(QwSendAppMsgQO sendAppMsgQO) {
+        String token = getAgentToken();
+        return restTemplate.postForObject(SEND_APP_MESSAGE + token, sendAppMsgQO, QwSendAppMsgResp.class);
     }
 
     private File toFile(MultipartFile multipartFile) {

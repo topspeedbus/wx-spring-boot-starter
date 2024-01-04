@@ -32,6 +32,14 @@ public interface QYWXService {
     Code2SessionDTO getuserinfoByCode(String code);
 
     /**
+     * 获取用户敏感信息
+     * 请求方式：POST（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/auth/getuserdetail?access_token=
+     */
+    String GET_USERINFO_DETAIL = WX_API_DOMAIN + "/cgi-bin/auth/getuserdetail?access_token=";
+    QwUserDTO getUserInfoDetailByTicket(Code2SessionDTO ticket);
+
+    /**
      * 获取token
      */
     String CODE_TO_SESSION_URL = WX_API_DOMAIN + "/cgi-bin/miniprogram/jscode2session?access_token={token}&js_code={code}&grant_type=authorization_code";
@@ -54,6 +62,11 @@ public interface QYWXService {
      * token redis key
      */
     String TOKEN_REDIS_KEY_PREFIX = "qywx_token:";
+
+    /**
+     * ticket redis key
+     */
+    String TICKET_REDIS_KEY_PREFIX = "qywx_ticket:";
 
     /**
      * 获取配置了客户联系功能的成员列表
@@ -324,6 +337,20 @@ public interface QYWXService {
     FileUploadResp mediaUpload(UrlFileUploadQO urlFileUploadQO);
 
     /************************************************文件上传*****************************************************************/
+
+    /************************************************消息推送*****************************************************************/
+    /**
+     * 发送应用消息
+     * 应用支持推送文本、图片、视频、文件、图文等类型。
+     *
+     * 请求方式：POST（HTTPS）
+     * 请求地址： https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=ACCESS_TOKEN
+     */
+    String SEND_APP_MESSAGE = WX_API_DOMAIN + "/cgi-bin/message/send?access_token=";
+
+    QwSendAppMsgResp sendAppMessage(QwSendAppMsgQO sendAppMsgQO);
+
+    /************************************************消息推送*****************************************************************/
 
 
 }
