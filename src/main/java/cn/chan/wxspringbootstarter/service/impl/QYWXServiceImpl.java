@@ -159,21 +159,22 @@ public class QYWXServiceImpl implements QYWXService {
         String tokenKey = TICKET_REDIS_KEY_PREFIX + corpid;
         Object ticketRedis = redisTemplate.opsForValue().get(tokenKey);
         if (!ObjectUtils.isEmpty(ticketRedis)) {
-            return (JsApiTicketDTO) ticketRedis;
+            String s = String.valueOf(ticketRedis);
+            return JSON.parseObject(s, JsApiTicketDTO.class);
         }
 
         String token = getToken();
-        return getJsApiTicketDTO(tokenKey, token);
+        return getJsApiTicketDTO(tokenKey, token, JSAPI_TICKET);
     }
 
-    private JsApiTicketDTO getJsApiTicketDTO(String tokenKey, String token) {
-        JsApiTicketDTO ticketDTO = restTemplate.getForObject(JSAPI_TICKET, JsApiTicketDTO.class, token);
+    private JsApiTicketDTO getJsApiTicketDTO(String tokenKey, String token, String url) {
+        JsApiTicketDTO ticketDTO = restTemplate.getForObject(url, JsApiTicketDTO.class, token);
 
         log.info("jsapiTicket获取到ticket: {}", ticketDTO);
         ticketDTO.checkIfError();
 
         //设置redis
-        redisTemplate.opsForValue().set(tokenKey, ticketDTO);
+        redisTemplate.opsForValue().set(tokenKey, JSON.toJSON(ticketDTO));
         redisTemplate.expire(tokenKey, ticketDTO.getExpires_in(), TimeUnit.SECONDS);
         return ticketDTO;
     }
@@ -183,11 +184,12 @@ public class QYWXServiceImpl implements QYWXService {
         String tokenKey = TICKET_REDIS_KEY_PREFIX + corpid + ":" + crmAgentId;
         Object ticketRedis = redisTemplate.opsForValue().get(tokenKey);
         if (!ObjectUtils.isEmpty(ticketRedis)) {
-            return (JsApiTicketDTO) ticketRedis;
+            String s = String.valueOf(ticketRedis);
+            return JSON.parseObject(s, JsApiTicketDTO.class);
         }
 
         String token = getAgentToken();
-        return getJsApiTicketDTO(tokenKey, token);
+        return getJsApiTicketDTO(tokenKey, token, JSAPI_TICKET_APP);
     }
 
     @Override
@@ -211,7 +213,7 @@ public class QYWXServiceImpl implements QYWXService {
     @Override
     public QwExternalUserBatchDTO getExternalContractUserInfoBatch(QwBatchGetExternalUserInfoQO batchGetExternalUserInfoQO) {
         String token = getToken();
-        return restTemplate.postForObject(GET_TAG_LIST + token, batchGetExternalUserInfoQO, QwExternalUserBatchDTO.class);
+        return restTemplate.postForObject(GET_EXTERNAL_CONTRACT_BATCH_USER_INFO + token, batchGetExternalUserInfoQO, QwExternalUserBatchDTO.class);
     }
 
     @Override
