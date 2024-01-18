@@ -40,24 +40,37 @@ public class WXServiceImpl implements WXService {
 
     private String appId;
     private String appSecret;
+    private String appName;
+    private String appCode;
     private String path;
     private String query;
 
-    public WXServiceImpl() {
+    @Override
+    public String getAppId() {
+        return this.appId;
     }
 
-    public WXServiceImpl(String appId, String appSecret, String path, String query, RestTemplate restTemplate, RedisTemplate redisTemplate) {
+    @Override
+    public String getAppName() {
+        return this.appName;
+    }
+
+//    public WXServiceImpl(String appId, String appSecret, String path, String query, RestTemplate restTemplate, RedisTemplate redisTemplate) {
+//        this.appId = appId;
+//        this.appSecret = appSecret;
+//        this.path = path;
+//        this.query = query;
+//        this.restTemplate = restTemplate;
+//        this.redisTemplate = redisTemplate;
+//    }
+
+    public WXServiceImpl(String appId, String appSecret, String appName, String appCode, RestTemplate restTemplate, RedisTemplate redisTemplate) {
         this.appId = appId;
         this.appSecret = appSecret;
-        this.path = path;
-        this.query = query;
+        this.appName = appName;
+        this.appCode = appCode;
         this.restTemplate = restTemplate;
         this.redisTemplate = redisTemplate;
-    }
-
-    public WXServiceImpl(String appId, String appSecret) {
-        this.appId = appId;
-        this.appSecret = appSecret;
         this.path = "";
         this.query = "";
     }

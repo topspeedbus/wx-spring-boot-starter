@@ -1,5 +1,6 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
 cn.chan.wxspringbootstarter.configuration.WXGZHConfiguration,\
 cn.chan.wxspringbootstarter.configuration.QYWXConfiguration,\
-cn.chan.wxspringbootstarter.configuration.WXAppletConfiguration
+cn.chan.wxspringbootstarter.configuration.WXAppletConfiguration,\
+cn.chan.wxspringbootstarter.configuration.WXGZHMultipleConfiguration
   

@@ -1,6 +1,7 @@
 package cn.chan.wxspringbootstarter.configuration.properties;
 
 
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
@@ -9,23 +10,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @description:
  **/
 @ConfigurationProperties(prefix = "wx.gzh.config")
+@Data
 public class WXGZHProperties {
     private String appId;
     private String appSecret;
-
-    public String getAppId() {
-        return appId;
-    }
-
-    public void setAppId(String appId) {
-        this.appId = appId;
-    }
-
-    public String getAppSecret() {
-        return appSecret;
-    }
-
-    public void setAppSecret(String appSecret) {
-        this.appSecret = appSecret;
-    }
+    private String appName;
+    private String appCode;
 }

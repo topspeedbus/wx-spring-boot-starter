@@ -1,7 +1,6 @@
 package cn.chan.wxspringbootstarter.configuration;
 
-
-import cn.chan.wxspringbootstarter.configuration.properties.WXAppletProperties;
+import cn.chan.wxspringbootstarter.configuration.properties.GZHProperties;
 import cn.chan.wxspringbootstarter.service.WXService;
 import cn.chan.wxspringbootstarter.service.impl.WXServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +14,16 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * @author: chan
  * @date: 2023/1/9 - 17:00
  * @description:
  **/
 @Configuration
-@EnableConfigurationProperties(WXAppletProperties.class)
-public class WXAppletConfiguration {
+@EnableConfigurationProperties(GZHProperties.class)
+public class WXGZHMultipleConfiguration {
+
+    private final GZHProperties wxgzhProperties;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -31,22 +31,18 @@ public class WXAppletConfiguration {
     @Autowired
     private RedisTemplate redisTemplate;
 
-    private final WXAppletProperties wxAppletProperties;
-
-    public WXAppletConfiguration(final WXAppletProperties wxAppletProperties) {
-        this.wxAppletProperties = wxAppletProperties;
+    public WXGZHMultipleConfiguration(final GZHProperties wxgzhProperties) {
+        this.wxgzhProperties = wxgzhProperties;
     }
 
-    @Bean("wxServiceMap")
-//    @ConditionalOnProperty(
-//            value = {"wx.applet.appConfigs"}
-//    )
+
+    @Bean("wxGZHServiceMap")
     @Lazy
-    public Map<String, WXService> getWxServiceMap() {
+    public Map<String, WXService> getWxGZHServiceMap() {
         Map<String, WXService> map = new HashMap<>();
-        wxAppletProperties.getAppConfigs().forEach(config -> {
-            WXServiceImpl wxService = new WXServiceImpl(config.getAppId(), config.getSecret(), config.getName(), config.getCode(), restTemplate, redisTemplate);
-            map.put(config.getCode(), wxService);
+        wxgzhProperties.getConfigs().forEach(config -> {
+            WXServiceImpl wxService = new WXServiceImpl(config.getAppId(), config.getAppSecret(), config.getAppName(), config.getAppCode(), restTemplate, redisTemplate);
+            map.put(config.getAppCode(), wxService);
         });
         return map;
     }

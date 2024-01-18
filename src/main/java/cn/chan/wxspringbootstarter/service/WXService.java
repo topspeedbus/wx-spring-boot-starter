@@ -35,6 +35,10 @@ public interface WXService {
     String TOKEN_REDIS_KEY_PREFIX = "wx_token:";
 
 
+    String getAppId();
+
+    String getAppName();
+
     /**
      * 获取token
      *
@@ -164,4 +168,17 @@ public interface WXService {
 
     /************************************************标签管理*****************************************************************/
 
+
+    /************************************************订阅消息通知-TOP*****************************************************************/
+    /**
+     send发送订阅通知
+     发送订阅通知
+
+     请求地址
+
+     POST https://api.weixin.qq.com/cgi-bin/message/subscribe/bizsend?access_token=ACCESS_TOKEN
+     */
+    String SEND_SUBSCRIBE_MSG = WX_API_DOMAIN + "/cgi-bin/message/subscribe/bizsend?access_token=";
+    ErrorDTO sendSubscribeMsg(WxTagBatchTaggingQO batchTaggingQO);
+    /************************************************订阅消息通知-END*****************************************************************/
 }
