@@ -2,10 +2,7 @@ package cn.chan.wxspringbootstarter.service;
 
 
 import cn.chan.wxspringbootstarter.entity.dto.*;
-import cn.chan.wxspringbootstarter.entity.qo.WxCodeQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxTagBatchTaggingQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxUrlLinkQO;
-import cn.chan.wxspringbootstarter.entity.qo.WxUrlSchemaOuterQO;
+import cn.chan.wxspringbootstarter.entity.qo.*;
 
 import java.util.List;
 
@@ -173,12 +170,11 @@ public interface WXService {
     /**
      send发送订阅通知
      发送订阅通知
-
      请求地址
-
      POST https://api.weixin.qq.com/cgi-bin/message/subscribe/bizsend?access_token=ACCESS_TOKEN
      */
-    String SEND_SUBSCRIBE_MSG = WX_API_DOMAIN + "/cgi-bin/message/subscribe/bizsend?access_token=";
-    ErrorDTO sendSubscribeMsg(WxTagBatchTaggingQO batchTaggingQO);
+//    String SEND_SUBSCRIBE_MSG = WX_API_DOMAIN + "/cgi-bin/message/subscribe/bizsend?access_token=";
+    String SEND_SUBSCRIBE_MSG = WX_API_DOMAIN + "/cgi-bin/message/template/send?access_token=";
+    ErrorDTO sendSubscribeMsg(SubscribeMsgSendQO subscribeMsgSendQO);
     /************************************************订阅消息通知-END*****************************************************************/
 }

@@ -272,4 +272,11 @@ public class WXServiceImpl implements WXService {
         return entity.getBody();
     }
 
+    @Override
+    public ErrorDTO sendSubscribeMsg(SubscribeMsgSendQO subscribeMsgSendQO) {
+        String token = getToken();
+        ResponseEntity<ErrorDTO> entity = restTemplate.postForEntity(SEND_SUBSCRIBE_MSG + token, subscribeMsgSendQO, ErrorDTO.class);
+        return entity.getBody();
+    }
+
 }

@@ -315,6 +315,12 @@ public class QYWXServiceImpl implements QYWXService {
     }
 
     @Override
+    public GroupSendMsgListDTO getGroupMsgList(GroupSendMsgListQO groupSendMsgListQO) {
+        String token = getToken();
+        return restTemplate.postForObject(GET_GROUP_MSG_LIST + token, groupSendMsgListQO, GroupSendMsgListDTO.class);
+    }
+
+    @Override
     public ErrorDTO sendWelcomeMsg(WelcomeMsgQO welcomeMsgQO) {
         String token = getToken();
         return restTemplate.postForObject(SEND_WELCOME_MSG + token, welcomeMsgQO, ErrorDTO.class);
@@ -340,6 +346,12 @@ public class QYWXServiceImpl implements QYWXService {
         String token = getToken();
         String url = MEDIA_UPLOAD.replace("param1", urlFileUploadQO.getType());
         return restTemplate.postForObject(url + token, formEntity, FileUploadResp.class);
+    }
+
+    @Override
+    public CustomerAcquisitionResp customerAcquisition(CustomerAcquisitionQO customerAcquisitionQO) {
+        String token = getAgentToken();
+        return restTemplate.postForObject(CUSTOMER_ACQUISITION + token, customerAcquisitionQO, CustomerAcquisitionResp.class);
     }
 
     @Override

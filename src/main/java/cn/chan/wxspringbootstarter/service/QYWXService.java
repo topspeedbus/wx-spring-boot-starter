@@ -309,6 +309,17 @@ public interface QYWXService {
     groupSendMsgQueryDTO getGroupMsgResult(GroupSendMsgQueryQO groupSendMsgQueryQO);
 
     /**
+     * 获取企业群发成员执行结果
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/remind_groupmsg_send?access_token=ACCESS_TOKEN
+     */
+
+    String GET_GROUP_MSG_LIST = WX_API_DOMAIN + "/cgi-bin/externalcontact/get_groupmsg_list_v2?access_token=";
+
+    GroupSendMsgListDTO getGroupMsgList(GroupSendMsgListQO groupSendMsgListQO);
+
+    /**
      * 发送新客户欢迎语
      * 请求方式: POST(HTTP)
      *
@@ -351,6 +362,21 @@ public interface QYWXService {
     QwSendAppMsgResp sendAppMessage(QwSendAppMsgQO sendAppMsgQO);
 
     /************************************************消息推送*****************************************************************/
+
+
+    /************************************************获客助手*****************************************************************/
+    /**
+     * 创建获客链接
+     * 企业可通过此接口创建新的获客链接。
+     *
+     * 请求方式: POST(HTTP)
+     *
+     * 请求地址:https://qyapi.weixin.qq.com/cgi-bin/externalcontact/customer_acquisition/create_link?access_token=ACCESS_TOKEN
+     */
+    String CUSTOMER_ACQUISITION = WX_API_DOMAIN + "/cgi-bin/externalcontact/customer_acquisition/create_link?access_token=";
+
+    CustomerAcquisitionResp customerAcquisition(CustomerAcquisitionQO customerAcquisitionQO);
+    /************************************************获客助手*****************************************************************/
 
 
 }
