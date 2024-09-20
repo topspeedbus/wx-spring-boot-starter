@@ -18,13 +18,8 @@ public class CustomerAcquisitionQO {
     @JsonProperty("link_name")
     private String linkName;
 
-    @ApiModelProperty(value = "此获客链接关联的userid列表，最多500人", required = false)
-    @JsonProperty("user_list")
-    private List<String> userList;
-
-    @ApiModelProperty(value = "此获客链接关联的部门id列表，部门覆盖总人数最多500个", required = false)
-    @JsonProperty("department_list")
-    private List<Integer> departmentList;
+    @ApiModelProperty(value = "范围", required = false)
+    private Range range; // 设置为默认值
 
     @ApiModelProperty(value = "是否无需验证，默认为true", required = false)
     @JsonProperty("skip_verify")
@@ -45,6 +40,19 @@ public class CustomerAcquisitionQO {
         @ApiModelProperty(value = "指定成员列表，priority_type为2时必填，最多1000个", required = false)
         @JsonProperty("priority_userid_list")
         private List<String> priorityUserIdList;
+
+    }
+
+    @Data
+    public static class Range {
+
+        @ApiModelProperty(value = "此获客链接关联的userid列表，最多500人", required = false)
+        @JsonProperty("user_list")
+        private List<String> userList;
+
+        @ApiModelProperty(value = "此获客链接关联的部门id列表，部门覆盖总人数最多500个", required = false)
+        @JsonProperty("department_list")
+        private List<Integer> departmentList;
 
     }
 }

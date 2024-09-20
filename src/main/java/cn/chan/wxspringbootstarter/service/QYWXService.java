@@ -376,6 +376,30 @@ public interface QYWXService {
     String CUSTOMER_ACQUISITION = WX_API_DOMAIN + "/cgi-bin/externalcontact/customer_acquisition/create_link?access_token=";
 
     CustomerAcquisitionResp customerAcquisition(CustomerAcquisitionQO customerAcquisitionQO);
+
+
+    /**
+     * 配置客户联系「联系我」方式
+     * 企业可以在管理后台-客户联系-加客户中配置成员的「联系我」的二维码或者小程序按钮，客户通过扫描二维码或点击小程序上的按钮，即可获取成员联系方式，主动联系到成员。
+     * 企业可通过此接口为具有客户联系功能的成员生成专属的「联系我」二维码或者「联系我」按钮。
+     * 如果配置的是「联系我」按钮，需要开发者的小程序接入小程序插件。
+     *
+     * 注意:
+     * 通过API添加的「联系我」不会在管理端进行展示，每个企业可通过API最多配置50万个「联系我」。
+     * 用户需要妥善存储返回的config_id，config_id丢失可能导致用户无法编辑或删除「联系我」。
+     * 临时会话模式不占用「联系我」数量，但每日最多添加10万个，并且仅支持单人。
+     * 临时会话模式的二维码，添加好友完成后该二维码即刻失效。
+     *
+     *
+     *
+     * 请求方式：POST（HTTPS）
+     * 请求地址：https://qyapi.weixin.qq.com/cgi-bin/externalcontact/add_contact_way?access_token=ACCESS_TOKEN
+     */
+
+    String ADD_CONTACT_WAY = WX_API_DOMAIN + "/cgi-bin/externalcontact/add_contact_way?access_token=";
+
+    QWAddContractLinkResp addContactWay(QWAddContractLinkQO addContractLinkQO);
+
     /************************************************获客助手*****************************************************************/
 
 

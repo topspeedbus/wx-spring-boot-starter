@@ -355,6 +355,12 @@ public class QYWXServiceImpl implements QYWXService {
     }
 
     @Override
+    public QWAddContractLinkResp addContactWay(QWAddContractLinkQO addContractLinkQO) {
+        String token = getAgentToken();
+        return restTemplate.postForObject(ADD_CONTACT_WAY + token, addContractLinkQO, QWAddContractLinkResp.class);
+    }
+
+    @Override
     public QwSendAppMsgResp sendAppMessage(QwSendAppMsgQO sendAppMsgQO) {
         String token = getAgentToken();
         return restTemplate.postForObject(SEND_APP_MESSAGE + token, sendAppMsgQO, QwSendAppMsgResp.class);
